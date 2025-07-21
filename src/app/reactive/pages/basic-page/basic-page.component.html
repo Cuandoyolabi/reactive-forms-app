@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col">
-        <form autocomplete="off" [formGroup]='myForm'>
+        <form autocomplete="off" [formGroup]='myForm' (ngSubmit)="onSave()">
 
             <!-- Campo de producto -->
             <div class="mb-3 row">
@@ -19,7 +19,7 @@
 
                   @if ( isValidField('name')){
                     <span class="form-text text-danger">
-                      {{ getFieldError('name') }}
+                      {{ getFieldError("name") }}
                     </span>
                   }
                 </div>
