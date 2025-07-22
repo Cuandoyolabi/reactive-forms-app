@@ -1,20 +1,20 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr>
 
-<form autocomplete="off" [formGroup]="myForm">
+<form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
 
     <!-- Nombre -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
-            <input class="form-control"
-              placeholder="Nombre de la persona"
-              >
+            <input class="form-control" placeholder="Nombre de la persona" formControlName="name">
               @if (FormUtils.isValidField(myForm, "name")) {
                 <span class="form-text text-danger">
                   {{ FormUtils.getFieldError(myForm, "name") }}
                 </span>
               }
+
+
         </div>
     </div>
 
@@ -24,13 +24,8 @@
         <div class="col-sm-9">
 
             <div class="input-group">
-                <input class="form-control"
-                  placeholder="Agregar favorito"
-                  >
-
-
-                <button class="btn btn-outline-primary"
-                        type="button">
+                <input class="form-control" placeholder="Agregar favorito" [formControl]="newFavorite">
+                <button class="btn btn-outline-primary" type="button" (click)="onAddToFavorites()">
                     Agregar favorito
                 </button>
             </div>
@@ -46,17 +41,13 @@
           @for (favoriteGame of favoriteGames.controls; track $index; let i = $index) {
             <div class="mb-1">
                 <div class="input-group">
-                    <input class="form-control"
-                    [formControlName]="i"
-                    >
-                    <button class="btn btn-outline-danger"
-                      type="button">
-                      Eliminar
-                  </button>
+                    <input class="form-control" [formControlName]="i">
+                    <button class="btn btn-outline-danger" type="button">Eliminar</button>
                 </div>
-                @if (isValidFieldInArray(favoriteGames , i)) {
+
+                @if ( FormUtils.isValidFieldInArray(favoriteGames, i)) {
                 <span class="form-text text-danger">
-                   {{ FormUtils.getFieldError(myForm, "name") }}
+                {{ FormUtils.getFieldErrorInArray(favoriteGames, i) }}
                 </span>
                 }
             </div>
