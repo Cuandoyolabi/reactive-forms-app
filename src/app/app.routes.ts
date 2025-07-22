@@ -4,6 +4,11 @@ import { countryRoutes } from './country/country.routes';
 export const routes: Routes = [
 
   {
+    path: '',
+    redirectTo: 'reactive',
+    pathMatch: 'full'
+  },
+  {
     path: 'reactive',
     loadChildren: () => import('./reactive/reactive.routes').then((m) => m.reactiveRoutes),
   },

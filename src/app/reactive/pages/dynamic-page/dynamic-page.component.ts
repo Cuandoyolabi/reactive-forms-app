@@ -28,15 +28,15 @@ export class DynamicPageComponent {
   }
 
   onAddToFavorites(){
-    console.log("Si llega aqui")
     if(this.newFavorite.invalid) return;
+
     const newGame = this.newFavorite.value;
-    console.log(newGame)
-    console.log("Si se activa")
     this.favoriteGames.push(this.fb.control(newGame, Validators.required));
-
     this.newFavorite.reset();
+  }
 
+  onDeleteFavorite(index: number){
+    this.favoriteGames.removeAt(index);
   }
 
   onSubmit(){
