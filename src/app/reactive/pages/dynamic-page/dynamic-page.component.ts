@@ -16,8 +16,8 @@ export class DynamicPageComponent {
   myForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     favoriteGames: this.fb.array([
-      this.fb.control("Metal Gear", Validators.required),
-      this.fb.control("Death Stranding", Validators.required),
+      ["Metal Gear", Validators.required],
+      ["Death Stranding", Validators.required],
     ],Validators.minLength(2)),
   });
 
@@ -40,7 +40,7 @@ export class DynamicPageComponent {
   }
 
   onSubmit(){
-    this.myForm.markAsTouched();
+    this.myForm.markAllAsTouched();
   }
 
 }
