@@ -10,16 +10,15 @@ import { FormUtils } from '../../../utils/form-utils';
 })
 export class RegisterPageComponent {
 
-
   private fb = inject(FormBuilder);
   formUtils = FormUtils;
 
   myForm: FormGroup = this.fb.group({
     name: ["", Validators.required],
-    email: ["", Validators.email],
-    username: ["", Validators.required, Validators.minLength(6)],
-    password: ["", Validators.required, Validators.minLength(6)],
-    confirmPassword: ["", Validators.required ]
+    email: ["", [Validators.required ,Validators.email]],
+    username: ["", [Validators.required, Validators.minLength(6)]],
+    password: ["", [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ["", Validators.required ],
   });
 
 
