@@ -3,6 +3,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryService } from '../../services/country.service';
 import { Country } from '../../services/country.interface';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -25,13 +26,18 @@ export class CountryPageComponent {
   });
 
   onFormChanged = effect( ( onCleanup ) => {
-      const formRegionChanged = this.myForm.get('Region')!.valueChanges.subscribe(value => {
-        console.log({value})
-      });
+      const regionSubscription = this.onRegionChanged();
 
       onCleanup(() => {
-        formRegionChanged.unsubscribe();
+        regionSubscription.unsubscribe();
         console.log("Limpio")
       })
   });
+
+  onRegionChanged(){
+    return this.myForm.get('region')!.valueChanges.pipe(tap((region) => console.log({region})))
+      .subscribe((region) => {});
+  }
+
+
 }
