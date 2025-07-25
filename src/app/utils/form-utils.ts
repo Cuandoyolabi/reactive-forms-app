@@ -30,8 +30,11 @@ export class FormUtils {
           case 'email':
             return `El valor ingresado no es un correo electronico`;
 
-        case 'emailTaken':
-          return `El correo electronico ya esta siendo usado por otro usuario`;
+          case 'emailTaken':
+            return `El correo electronico ya esta siendo usado por otro usuario`;
+
+          case 'Cuandoyolabi':
+            return `El username ya esta siendo usado por otro usuario`;
 
           case 'pattern':
             if( errors['pattern'].requiredPattern === FormUtils.emailPattern ){
@@ -95,7 +98,13 @@ export class FormUtils {
     return null;
   }
 
-  static notCuandoyolabi(): ValidationErrors | null{}
+  static notCuandoyolabi(control: AbstractControl): ValidationErrors | null {
 
+    const value = control.value;
+    if( value == 'Cuandoyolabi'){
+      return { Cuandoyolabi: true};
+    }
+    return null;
+  }
 }
 

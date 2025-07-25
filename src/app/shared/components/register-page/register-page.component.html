@@ -36,7 +36,7 @@
                     >
                      @if(formUtils.isValidField(myForm, "email")){
                      <span class="form-text text-danger">
-                         El valor ingresado no parece un correo electronico
+                         {{ formUtils.getFieldError(myForm, "email") }}
                       </span>
                     }
                 </div>
