@@ -15,29 +15,21 @@ export class RegisterPageComponent {
 
   myForm: FormGroup = this.fb.group({
     name: ["", [Validators.required, Validators.pattern( FormUtils.namePattern )]],
-    email: ["", [Validators.required ,Validators.pattern( FormUtils.emailPattern )]],
+    email: ["",
+              [Validators.required ,Validators.pattern( FormUtils.emailPattern )],
+              [FormUtils.checkingServerResponse ],
+              ],
     username: ["", [Validators.required, Validators.minLength(6), Validators.pattern( FormUtils.notOnlySpacesPattern)]],
-
     password: ["", [Validators.required, Validators.minLength(6)]],
     confirmPassword: ["", Validators.required ],
   }, {
     validators: [
-      this.isFieldOneEqualFieldTwo("password", "confirmPassword"),
+      this.formUtils.isFieldOneEqualFieldTwo("password", "confirmPassword"),
     ]
   });
-
-  isFieldOneEqualFieldTwo( field1: string, field2: string){
-    return ( formGroup: AbstractControl ) => {
-      const field1Value = formGroup.get(field1)?.value;
-      const field2Value = formGroup.get(field2)?.value;
-
-      return field1Value === field2Value ? null : { passwordNotEqual: true };
-    };
-  }
 
   onSubmit() {
     this.myForm.markAllAsTouched();
     console.log(this.myForm.value);
   }
-
 }
