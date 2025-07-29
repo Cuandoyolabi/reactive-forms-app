@@ -30,16 +30,30 @@ export class CountryService {
     return this.http.get<Country[]>(url);
   }
 
-  getCountryByAlphaCOde(aplhaCode: string): Observable <Country>{
+  getCountryByAlphaCode(aplhaCode: string): Observable <Country>{
 
     const url = `${ this.baseUrl }/alpha/${ aplhaCode }?fields=cca3,name,borders`;
     return this.http.get<Country>(url);
 
   }
 
-  getCountryBorderByCodes( border: string[]){
-      const url = `${ this.baseUrl }/border/${ border }?fields=cca3,name,borders`;
-      return this.http.get<Country>(url);
+  getCountryNamesByCodeArray( countryCodes: string[]): Observable <Country[]> {
+
+    if( !countryCodes || countryCodes.length === 0) return of([]);
+
+    const countriesRequest: Observable<Country>[] = [];
+
+    countryCodes.forEach( code => {
+      const request = this.getCountryByAlphaCode(code);
+      countriesRequest.push(request);
+    })
+
+    return combinaLastest( countriesRequest );
+
   }
 
 }
+function combinaLastest(countriesRequest: Observable<Country>[]): Observable<Country[]> {
+  throw new Error('Function not implemented.');
+}
+
