@@ -13,7 +13,7 @@ export class CountryService {
     "Africa",
     "America",
     "Asia",
-    "Europa",
+    "Europe",
     "Oceania",
   ];
 
