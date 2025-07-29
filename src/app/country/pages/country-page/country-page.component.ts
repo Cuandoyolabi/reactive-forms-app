@@ -27,7 +27,7 @@ export class CountryPageComponent {
 
   onFormChanged = effect( ( onCleanup ) => {
       const regionSubscription = this.onRegionChanged();
-      const countrySubscription = this.onRegionChanged();
+      const countrySubscription = this.onCountryChanged();
 
       onCleanup(() => {
         regionSubscription.unsubscribe();
@@ -58,13 +58,16 @@ export class CountryPageComponent {
     return this.myForm.get('country')!.valueChanges
     .pipe(
       tap( () => this.myForm.get('border')!.setValue('')),
-      filter( value => value!.length > 0),
+      filter( ( value ) => value!.length > 0),
       switchMap( (alphaCode) => this.countryService.getCountryByAlphaCode(alphaCode ?? '')
     ),
-      switchMap(( country ) => this.countryService.getCountryNamesByCodeArray(country.borders))
+      switchMap(( country ) => this.countryService.getCountryNamesByCodeArray(country.borders)
+      )
     )
     .subscribe((borders) => {
+      this.borders.set(borders)
       console.log({ borders });
+      console.log(borders);
     });
   }
 }
