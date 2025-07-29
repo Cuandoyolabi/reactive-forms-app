@@ -3,7 +3,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryService } from '../../services/country.service';
 import { Country } from '../../services/country.interface';
-import { tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -35,9 +35,21 @@ export class CountryPageComponent {
   });
 
   onRegionChanged(){
-    return this.myForm.get('region')!.valueChanges.pipe(tap((region) => console.log({region})))
-      .subscribe((region) => {});
+    return this.myForm.get('region')!.valueChanges.pipe(
+      tap(() => this.myForm.get('country')!.setValue('')),
+      tap(() => this.myForm.get('border')!.setValue('')),
+      tap(() => {
+        this.borders.set([]);
+        this.countriesByRegion.set([]);
+      },
+    ),
+    switchMap(region => this.countryService.getCountriesByRegion(region ?? ''))
+    )
+      .subscribe((countries) => {
+        console.log({countries })
+        this.countriesByRegion.set(countries);
+      });
   }
-
-
 }
+
+
